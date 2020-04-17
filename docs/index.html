@@ -7,8 +7,8 @@
     <title>A Mazing Game | Luke Ahrens-Townsend</title>
 
     <script src="Build/UnityLoader.js"></script>
-    <script src="./UnityProgress.js"></script>
-    <link rel="stylesheet" href="./style.css">
+    <script src="./TemplateData/UnityProgress.js"></script>
+    <link rel="stylesheet" href="./TemplateData/style.css">
     <script>
         var unityInstance = UnityLoader.instantiate("unityContainer", "Build/docs.json", { onProgress: UnityProgress });
     </script>
@@ -24,6 +24,33 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background-color: #111;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #unityContainer {
+            border: 1px solid #222 !important;
+            border-radius: 3px;
+            width: 75vw;
+            height: 90vh;
+        }
+
+        #unityContainer canvas {
+            border-radius: 3px;
+        }
+
+        .fullscreen {
+            border-radius: 3px;
+        }
+
+        .title {
+            color: #888
+        }
+    </style>
 </head>
 
 <body>
