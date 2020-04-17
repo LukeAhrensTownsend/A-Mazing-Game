@@ -5,10 +5,11 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>A Mazing Game | Luke Ahrens-Townsend</title>
+    <link rel="shortcut icon" href="./favicon.ico">
 
     <script src="%UNITY_WEBGL_LOADER_URL%"></script>
-    <script src="TemplateData/UnityProgress.js"></script>
-    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="./TemplateData/UnityProgress.js"></script>
+    <link rel="stylesheet" href="./TemplateData/style.css">
     <script>
         var unityInstance = UnityLoader.instantiate("unityContainer", "%UNITY_WEBGL_BUILD_URL%", { onProgress: UnityProgress });
     </script>
@@ -33,6 +34,7 @@
         }
 
         #unityContainer {
+            background: none !important;
             border: 1px solid #222 !important;
             border-radius: 3px;
             width: 75vw;
