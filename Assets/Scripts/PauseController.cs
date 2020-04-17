@@ -27,12 +27,14 @@ public class PauseController : MonoBehaviour
     void Pause() {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
+        MusicController.levelAudioSource.volume = 0.2f;
         isPaused = true;
     }
 
     public void Resume() {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
+        MusicController.levelAudioSource.volume = 1f;
         isPaused = false;
     }
 
@@ -42,6 +44,8 @@ public class PauseController : MonoBehaviour
         isPaused = false;
         PlayerController.isGameOver = false;
         PlayerController.isDead = false;
+        MusicController.levelAudioSource.volume = 0f;
+        MusicController.mainMenuAudioSource.volume = 1f;
         SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
 

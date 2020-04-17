@@ -17,6 +17,8 @@ TagManager:
   - TriggerBoxNewGame
   - TriggerBoxExitGame
   - Audio
+  - MainMenuMusic
+  - LevelMusic
   layers:
   - Default
   - TransparentFX

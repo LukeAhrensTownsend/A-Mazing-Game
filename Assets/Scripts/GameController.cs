@@ -76,7 +76,11 @@ public class GameController : MonoBehaviour {
         PlayerController.isDead = false;
 
         LevelCompleteUI.SetActive(false);
-        SceneManager.LoadScene((sceneIndex + 1), LoadSceneMode.Single);
+        if (sceneIndex < 3) {
+            SceneManager.LoadScene((sceneIndex + 1), LoadSceneMode.Single);
+        } else {
+            SceneManager.LoadScene(1, LoadSceneMode.Single);
+        }
     }
 
     public void QuitGame() {
