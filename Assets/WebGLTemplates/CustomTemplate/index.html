@@ -5,8 +5,13 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>A Mazing Game | Luke Ahrens-Townsend</title>
-    <script src="./UnityProgress.js"></script>
+
     <script src="%UNITY_WEBGL_LOADER_URL%"></script>
+    <script src="./UnityProgress.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <script>
+        var unityInstance = UnityLoader.instantiate("unityContainer", "%UNITY_WEBGL_BUILD_URL%", { onProgress: UnityProgress });
+    </script>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -19,27 +24,17 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    <script>
-        var unityInstance = UnityLoader.instantiate("unityContainer", "%UNITY_WEBGL_BUILD_URL%", { onProgress: UnityProgress });
-    </script>
-    <style>
-        body {
-            background-color: #111;
-            height: 100vh;
-            margin: 0;
-        }
-
-        #unityContainer {
-            width: 75vw;
-            height: 90vh;
-        }
-    </style>
 </head>
 
 <body>
     <div class="container justify-content-center fluid">
         <div class="webgl-content">
             <div id="unityContainer"></div>
+        </div>
+        <div class="footer">
+            <div class="webgl-logo"></div>
+            <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+            <div class="title">A Mazing Game by Luke Ahrens-Townsend</div>
         </div>
     </div>
 </body>
