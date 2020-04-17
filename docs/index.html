@@ -4,15 +4,38 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | A Mazing Game</title>
-    <link rel="shortcut icon" href="./favicon.ico">
-    <link rel="stylesheet" href="../../../docs/TemplateData/style.css">
+    <title>A Mazing Game | Luke Ahrens-Townsend</title>
     <script src="../../../docs/TemplateData/UnityProgress.js"></script>
-    <script src="../../../docs/Build/UnityLoader.js"></script>
+    <script src="Build/UnityLoader.js"></script>
     <script>
-        var unityInstance = UnityLoader.instantiate("unityContainer", "../../../docs/Build/docs.json", { onProgress: UnityProgress });
-        UnityLoader.instantiate("unityContainer", "../../../docs/Build/docs.json");
+        var unityInstance = UnityLoader.instantiate("unityContainer", "Build/docs.json", { onProgress: UnityProgress });
     </script>
+    <style>
+        body {
+            background-color: #111;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #unityContainer {
+            border: 1px solid #222 !important;
+            border-radius: 3px;
+            width: 75vw;
+            height: 90vh;
+        }
+
+        #unityContainer canvas {
+            border-radius: 3px;
+        }
+
+        .fullscreen {
+            border-radius: 3px;
+        }
+
+        .title {
+            color: #888
+        }
+    </style>
 </head>
 
 <body>
@@ -21,7 +44,7 @@
         <div class="footer">
             <div class="webgl-logo"></div>
             <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
-            <div class="title">A Mazing Game</div>
+            <div class="title">A Mazing Game by Luke Ahrens-Townsend</div>
         </div>
     </div>
     <div id="unityContainer" style="width: 960px; height: 600px; margin: auto"></div>
