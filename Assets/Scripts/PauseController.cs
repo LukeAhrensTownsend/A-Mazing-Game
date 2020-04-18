@@ -6,7 +6,16 @@ using UnityEngine.SceneManagement;
 public class PauseController : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    public MainMenuController mainMenuController;
     public static bool isPaused;
+
+    private static AudioSource mainMenuAudioSource;
+    private static AudioSource levelAudioSource;
+
+    void Awake() {
+        mainMenuAudioSource = MusicController.mainMenuAudioSource;
+        levelAudioSource = MusicController.levelAudioSource;
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -27,26 +36,35 @@ public class PauseController : MonoBehaviour
     void Pause() {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
-        MusicController.levelAudioSource.volume = 0.2f;
+        levelAudioSource.volume = 0.2f;
         isPaused = true;
     }
 
     public void Resume() {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        MusicController.levelAudioSource.volume = 1f;
+        levelAudioSource.volume = 1f;
         isPaused = false;
     }
 
-    public void MainMenu() {
+    public void LoadSceneFromPause(int sceneIndex) {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
         PlayerController.isGameOver = false;
         PlayerController.isDead = false;
-        MusicController.levelAudioSource.volume = 0f;
-        MusicController.mainMenuAudioSource.volume = 1f;
-        SceneManager.LoadScene(0, LoadSceneMode.Single);
+        MusicController.StopCoroutines();
+        MusicController.FadeInCaller(mainMenuAudioSource, 0.05f);
+        mainMenuController.LoadScene(sceneIndex);
+    }
+
+    public void LoadNextScene() {
+        int currentScene = SceneManager.GetActiveScene().buildIndex;
+        if (currentScene < 3) {
+            SceneManager.LoadScene((currentScene + 1), LoadSceneMode.Single);
+        } else {
+            LoadSceneFromPause(1);
+        }
     }
 
     public void QuitGame() {

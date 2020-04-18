@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour {
     public GameObject LevelCompleteUI;
     public GameObject YouDiedUI;
     public GameObject LevelCompleteTimerText;
+    public PauseController pauseController;
     public static int sceneIndex;
     public static int maxScenes;
 
@@ -55,9 +56,9 @@ public class GameController : MonoBehaviour {
                 ReloadScene();
             } else {
                 if ((sceneIndex + 1) < SceneManager.sceneCount) {
-                    LoadNextScene();
+                    pauseController.LoadSceneFromPause(0);
                 } else {
-                    SceneManager.LoadScene(1, LoadSceneMode.Single);
+                    pauseController.LoadNextScene();
                 }
             }
         }
@@ -69,18 +70,6 @@ public class GameController : MonoBehaviour {
 
         YouDiedUI.SetActive(false);
         SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
-    }
-
-    public void LoadNextScene() {
-        PlayerController.isGameOver = false;
-        PlayerController.isDead = false;
-
-        LevelCompleteUI.SetActive(false);
-        if (sceneIndex < 3) {
-            SceneManager.LoadScene((sceneIndex + 1), LoadSceneMode.Single);
-        } else {
-            SceneManager.LoadScene(1, LoadSceneMode.Single);
-        }
     }
 
     public void QuitGame() {
