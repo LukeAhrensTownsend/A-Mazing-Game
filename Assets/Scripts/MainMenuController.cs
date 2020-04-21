@@ -2,45 +2,89 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class MainMenuController : MonoBehaviour
-{
-    private static AudioSource mainMenuAudioSource;
-    private static AudioSource levelAudioSource;
+public class MainMenuController : MonoBehaviour {
+    
+    public GameObject mainPanel;
+    public GameObject levelSelectPanel;
+    public GameObject controlsPanel;
+    public GameObject Overlay;
+    public GameController gameController;
 
-    void Awake() {
-        mainMenuAudioSource = MusicController.mainMenuAudioSource;
-        levelAudioSource = MusicController.levelAudioSource;
+    private static RawImage overlay = null;
+    private static GameObject mainPanelInstance = null;
+
+    public void Start() {
+        if (overlay != null) {
+            Destroy(gameObject);
+        } else { 
+            overlay = Overlay.GetComponent<RawImage>();
+            mainPanelInstance = mainPanel;
+            DontDestroyOnLoad(gameObject);
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+            mainPanelInstance.SetActive(true);
     }
 
-    public void NewGame() {
-        LoadScene(3);
+    public void LoadMainMenuPanel(string panel = "main") {
+        if (mainPanel) {
+            mainPanel.SetActive(false);
+            levelSelectPanel.SetActive(false);
+            controlsPanel.SetActive(false);
+
+            switch (panel) {
+                case "levels":
+                    levelSelectPanel.SetActive(true);
+                    break;
+                case "controls":
+                    controlsPanel.SetActive(true);
+                    break;
+                default:
+                    mainPanel.SetActive(true);
+                    break;
+            }
+        }
     }
 
     public void LoadScene(int sceneIndex) {
-        PlayerController.isGameOver = false;
-        PlayerController.isDead = false;
-
-        if (sceneIndex > 2) {
-            MusicController.StopCoroutines();
-            MusicController.FadeOutCaller(mainMenuAudioSource, 0.05f);
-            MusicController.FadeInCaller(levelAudioSource, 0.01f);
+        if (sceneIndex != 0) {
+            MusicController.menuSelectAudioSource.Play();
+            StartCoroutine(FadeToScene(sceneIndex, 0.01f));
         } else {
-            MusicController.FadeOutCaller(levelAudioSource, 0.05f);
+            gameController.LoadScene(sceneIndex);
         }
-        
-        SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
     }
 
-    public void LevelSelect() {
-        SceneManager.LoadScene(1, LoadSceneMode.Single);
-    }
+    private IEnumerator FadeToScene(int sceneIndex, float fadeTime) {
+        MusicController.FadeOutCaller(MusicController.mainMenuAudioSource, 0.1f);
+        float alpha = overlay.color.a;
 
-    public void Controls() {
-        SceneManager.LoadScene(2, LoadSceneMode.Single);
+        while (overlay.color.a < 1.0f) {
+            alpha += fadeTime;
+            overlay.color = new Color(0f, 0f, 0f, alpha);
+
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        Cursor.visible = false;
+        yield return new WaitForSeconds(1.0f);
+
+        mainPanel.SetActive(false);
+        levelSelectPanel.SetActive(false);
+        controlsPanel.SetActive(false);
+        gameController.LoadScene(sceneIndex);
+
+        while (overlay.color.a > 0.0f) {
+            alpha -= fadeTime;
+            overlay.color = new Color(0f, 0f, 0f, alpha);
+
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 
     public void QuitGame() {
-        Application.Quit();
+        GameController.QuitGame();
     }
 }

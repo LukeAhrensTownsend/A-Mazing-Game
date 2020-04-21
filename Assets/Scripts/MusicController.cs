@@ -3,75 +3,70 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MusicController : MonoBehaviour
-{
+public class MusicController : MonoBehaviour {
+    
+    public static MusicController instance = null;
     public GameObject mainMenuMusic;
     public GameObject levelMusic;
+    public GameObject menuSelectSound;
     public static AudioSource mainMenuAudioSource;
     public static AudioSource levelAudioSource;
+    public static AudioSource menuSelectAudioSource;
 
-    private static MusicController instance = null;
-
-    void Awake()
-    {
-        mainMenuAudioSource = GameObject.FindGameObjectWithTag("MainMenuMusic").GetComponent<AudioSource>();
-        levelAudioSource = GameObject.FindGameObjectWithTag("LevelMusic").GetComponent<AudioSource>();
-
-        if (instance != null)
-        {
+    void Awake() {
+        if (instance != null) {
             Destroy(gameObject);
-        }
-        else
-        {
+        } else {
+            mainMenuAudioSource = mainMenuMusic.GetComponent<AudioSource>();
+            levelAudioSource = levelMusic.GetComponent<AudioSource>();
+            menuSelectAudioSource = menuSelectSound.GetComponent<AudioSource>();
             instance = this;
-            GameObject.DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
 
-            mainMenuAudioSource.Play();
+            if (SceneManager.GetActiveScene().buildIndex == 0) {
+                mainMenuAudioSource.Play();
+            } else {
+                levelAudioSource.Play();
+            }
         }
     }
 
-    public static void FadeInCaller(AudioSource audioSource, float fadeTime)
-    {
+    private static IEnumerator FadeIn(AudioSource audioSource, float fadeTime) {
+        if (audioSource) {
+            audioSource.volume = 0f;
+            float audioVolume = audioSource.volume;
+
+            while (audioSource.volume < 1.0f) {
+                audioVolume += fadeTime;
+                audioSource.volume = audioVolume;
+
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+    }
+
+    private static IEnumerator FadeOut(AudioSource audioSource, float fadeTime) {
+        if (audioSource) {
+            float audioVolume = audioSource.volume;
+
+            while (audioSource.volume > 0.0f) {
+                audioVolume -= fadeTime;
+                audioSource.volume = audioVolume;
+
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+    }
+
+    public static void FadeInCaller(AudioSource audioSource, float fadeTime) {
         instance.StartCoroutine(FadeIn(audioSource, fadeTime));
     }
 
-    public static void FadeOutCaller(AudioSource audioSource, float fadeTime)
-    {
+    public static void FadeOutCaller(AudioSource audioSource, float fadeTime) {
         instance.StartCoroutine(FadeOut(audioSource, fadeTime));
     }
 
-    private static IEnumerator FadeIn(AudioSource audioSource, float fadeTime)
-    {
-        audioSource.Play();
-        audioSource.volume = 0f;
-        float audioVolume = audioSource.volume;
-
-        while (audioSource.volume < 1.0f)
-        {
-            audioVolume += fadeTime;
-            audioSource.volume = audioVolume;
-
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
-
-    private static IEnumerator FadeOut(AudioSource audioSource, float fadeTime)
-    {
-        float audioVolume = audioSource.volume;
-
-        while (audioSource.volume > 0.0f)
-        {
-            audioVolume -= fadeTime;
-            audioSource.volume = audioVolume;
-
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        audioSource.Pause();
-    }
-
-    public static void StopCoroutines()
-    {
+    public static void StopCoroutines() {
         instance.StopAllCoroutines();
     }
 }

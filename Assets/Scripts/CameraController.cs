@@ -24,19 +24,19 @@ public class CameraController : MonoBehaviour {
 
             offset = transform.position - player.transform.position;
             zoomedOut = testBool = false;
-        }
+        }   
 
         switch (SceneManager.GetActiveScene().buildIndex) {
-            case 3: zoomedOutPosition = new Vector3(0, 20, 0);
+            case 1: zoomedOutPosition = new Vector3(0, 20, 0);
                 break;
-            case 4: zoomedOutPosition = new Vector3(0, 20, 0);
+            case 2: zoomedOutPosition = new Vector3(0, 20, 0);
                 break;
         }
 	}
 	
 	void LateUpdate () {
         DisplayZoom();
-        CheckInput();              
+        CheckInput();
 	}
 
     void DisplayZoom() {

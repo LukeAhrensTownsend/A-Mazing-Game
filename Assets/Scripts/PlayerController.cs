@@ -9,10 +9,10 @@ public class PlayerController : MonoBehaviour {
     public static bool isGameOver;
     public static bool isDead;
     public static bool isSliding;
+    
     private GameObject gameController;
     private GameController gameControllerScript;
     private Rigidbody rb;
-    private Vector3 movement;
     private int score;
     private int collectibleAmount;
 

@@ -5,17 +5,25 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
+
     public GameObject LevelCompleteUI;
     public GameObject YouDiedUI;
     public GameObject LevelCompleteTimerText;
-    public PauseController pauseController;
-    public static int sceneIndex;
+    public MusicController musicController;
     public static int maxScenes;
 
     private GameObject player;
     private GameObject finishArea;
     private GameObject triggerBoxFinish;
     private PlayerController playerControllerScript;
+    private AudioSource mainMenuAudioSource;
+    private AudioSource levelAudioSource;
+    private int sceneIndex;
+
+    void Awake() {
+        mainMenuAudioSource = musicController.mainMenuMusic.GetComponent<AudioSource>();
+        levelAudioSource = musicController.levelMusic.GetComponent<AudioSource>();
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -24,7 +32,7 @@ public class GameController : MonoBehaviour {
         triggerBoxFinish = GameObject.FindGameObjectWithTag("TriggerBoxFinish");
         playerControllerScript = player.GetComponent<PlayerController>();
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        maxScenes = SceneManager.sceneCount - 3;
+        maxScenes = SceneManager.sceneCount - 1;
 
         // Sets the 'Trigger Box (Finish)' position/scale relative to the 'Finish Area'.
         triggerBoxFinish.transform.position = new Vector3(finishArea.transform.position.x, 0.5f, finishArea.transform.position.z);
@@ -41,27 +49,35 @@ public class GameController : MonoBehaviour {
         }
 	}
 
-    public void LoadGameOverMessage() {
-        if (!PlayerController.isDead) {
-            LevelCompleteTimerText.GetComponent<Text>().text = "Time: " + TimerScript.timeElapsed.ToString("F2");
-            LevelCompleteUI.SetActive(true);
-        } else {
-            YouDiedUI.SetActive(true);
-        }
-    }
-
     void CheckInput() {
         if (Input.GetKeyDown(KeyCode.Return)) {
             if (PlayerController.isDead) {
                 ReloadScene();
             } else {
                 if ((sceneIndex + 1) < SceneManager.sceneCount) {
-                    pauseController.LoadSceneFromPause(0);
+                    LoadScene(0);
                 } else {
-                    pauseController.LoadNextScene();
+                    LoadNextScene();
                 }
             }
         }
+    }
+
+    public void LoadScene(int sceneIndex) {
+        PlayerController.isGameOver = false;
+        PlayerController.isDead = false;
+
+        MusicController.StopCoroutines();
+        if (sceneIndex != 0) {
+            MusicController.levelAudioSource.Play();
+            MusicController.FadeOutCaller(MusicController.mainMenuAudioSource, 0.05f);
+            MusicController.FadeInCaller(MusicController.levelAudioSource, 0.01f);
+        } else {
+            MusicController.FadeOutCaller(MusicController.levelAudioSource, 0.05f);
+            MusicController.FadeInCaller(MusicController.mainMenuAudioSource, 0.05f);
+        }
+        
+        SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
     }
 
     public void ReloadScene() {
@@ -72,11 +88,27 @@ public class GameController : MonoBehaviour {
         SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
     }
 
-    public void QuitGame() {
-        Application.Quit();
+    public void LoadNextScene() {
+        int currentScene = SceneManager.GetActiveScene().buildIndex;
+        
+        if (currentScene < GameController.maxScenes) {
+            SceneManager.LoadScene((currentScene + 1), LoadSceneMode.Single);
+        } else {
+            LoadScene(0);
+        }
     }
 
-    public int GetSceneIndex() {
-        return sceneIndex;
+    public void LoadGameOverMessage() {
+        Cursor.visible = true;
+        if (!PlayerController.isDead) {
+            LevelCompleteTimerText.GetComponent<Text>().text = "Time: " + TimerScript.timeElapsed.ToString("F2");
+            LevelCompleteUI.SetActive(true);
+        } else {
+            YouDiedUI.SetActive(true);
+        }
+    }
+
+    public static void QuitGame() {
+        Application.Quit();
     }
 }

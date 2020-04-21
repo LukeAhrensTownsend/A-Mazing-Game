@@ -6,22 +6,23 @@ using UnityEngine.SceneManagement;
 
 public class TimerScript : MonoBehaviour {
 
-    public GameController gameControllerScript;
     public static float timeElapsed;
 
     private Text timerText;
+    private int sceneIndex;
 
     // Start is called before the first frame update
     void Start() {
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
         timerText = GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update() {
-        if (GameController.sceneIndex != 0) {
+        if (sceneIndex != 0) {
             if (!PlayerController.isGameOver) {
                 timeElapsed = Time.timeSinceLevelLoad;
-                timerText.text = "Level " + (gameControllerScript.GetSceneIndex() - 2) + 
+                timerText.text = "Level " + sceneIndex + 
                     "\n" + timeElapsed.ToString("F2");
             }
         }
