@@ -88,8 +88,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skyboxes:
-  - {fileID: 2100000, guid: 378bd1206205764499a393a2c4eb1205, type: 2}
   - {fileID: 2100000, guid: c4afd13360d274644bb30acba0411488, type: 2}
-  - {fileID: 2100000, guid: e8bc3c3fbc7bbe849bdd0a3f5c7165f2, type: 2}
-  - {fileID: 2100000, guid: 0f4edca89ef8aac4e9ef8231e680124c, type: 2}
-  - {fileID: 2100000, guid: 360289ae609262c4bb604b3487c6db93, type: 2}
