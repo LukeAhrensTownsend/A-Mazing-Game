@@ -8,6 +8,7 @@
     <link rel="shortcut icon" href="./favicon.ico">
 
     <script src="Build/UnityLoader.js"></script>
+    <script src="./TemplateData/UnityProgress.js"></script>
     <link rel="stylesheet" href="./TemplateData/style.css">
     <script>
         var unityInstance = UnityLoader.instantiate("unityContainer", "Build/docs.json");
@@ -56,12 +57,14 @@
 </head>
 
 <body>
-    <div class="webgl-content">
-        <div id="unityContainer"></div>
+    <div class="container justify-content-center fluid">
+        <div class="webgl-content">
+            <div id="unityContainer"></div>
+        </div>
         <div class="footer">
             <div class="webgl-logo"></div>
             <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
-            <div class="title" style="color: #888">A Mazing Game by Luke Ahrens-Townsend</div>
+            <div class="title">A Mazing Game by Luke Ahrens-Townsend</div>
         </div>
     </div>
 </body>
