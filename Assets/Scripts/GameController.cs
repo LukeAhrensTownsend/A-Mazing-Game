@@ -32,7 +32,7 @@ public class GameController : MonoBehaviour {
         triggerBoxFinish = GameObject.FindGameObjectWithTag("TriggerBoxFinish");
         playerControllerScript = player.GetComponent<PlayerController>();
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        maxScenes = SceneManager.sceneCount - 1;
+        maxScenes = SceneManager.sceneCountInBuildSettings - 1;
 
         // Sets the 'Trigger Box (Finish)' position/scale relative to the 'Finish Area'.
         triggerBoxFinish.transform.position = new Vector3(finishArea.transform.position.x, 0.5f, finishArea.transform.position.z);
@@ -89,10 +89,8 @@ public class GameController : MonoBehaviour {
     }
 
     public void LoadNextScene() {
-        int currentScene = SceneManager.GetActiveScene().buildIndex;
-        
-        if (currentScene < GameController.maxScenes) {
-            SceneManager.LoadScene((currentScene + 1), LoadSceneMode.Single);
+        if (sceneIndex < GameController.maxScenes) {
+            SceneManager.LoadScene((sceneIndex + 1), LoadSceneMode.Single);
         } else {
             LoadScene(0);
         }

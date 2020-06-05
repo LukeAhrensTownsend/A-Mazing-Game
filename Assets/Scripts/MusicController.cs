@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MusicController : MonoBehaviour {
-    
+
     public static MusicController instance = null;
     public GameObject mainMenuMusic;
     public GameObject levelMusic;
