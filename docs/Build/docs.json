@@ -1,7 +1,7 @@
 {
 "companyName": "Luke Ahrens-Townsend",
 "productName": "A Mazing Game by Luke Ahrens-Townsend",
-"productVersion": "1.0.2",
+"productVersion": "1.0.3",
 "dataUrl": "docs.data.unityweb",
 "wasmCodeUrl": "docs.wasm.code.unityweb",
 "wasmFrameworkUrl": "docs.wasm.framework.unityweb",
@@ -11,5 +11,5 @@
 "backgroundColor": "#808080",
 "developmentBuild": false,
 "multithreading": false,
-"unityVersion": "2019.3.10f1"
+"unityVersion": "2019.3.12f1"
 }
